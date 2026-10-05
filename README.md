@@ -8,7 +8,7 @@ Giao diện thử nghiệm nằm trong file [`index.html`](./index.html). Đây 
 
 - Thêm, sửa, xóa bản ghi tài liệu sản xuất.
 - Theo dõi mã đơn hàng, mã mua hàng thu mua, nhà cung ứng, SKU, tài liệu, màu sắc, số lượng và ngày tháng liên quan.
-- Tìm kiếm, lọc theo nhà cung ứng, tình trạng thông quan và ngày nhập kho.
+- Tìm kiếm tổng quát và lọc nâng cao riêng theo mã SKU (có chứa hoặc khớp chính xác), nhà cung ứng, tình trạng thông quan và ngày nhập kho.
 - Nhập dữ liệu từ CSV và xuất dữ liệu ra CSV mở bằng Excel.
 - Lưu dữ liệu thử nghiệm trên trình duyệt bằng `localStorage`.
 - Giao diện responsive cho máy tính và điện thoại.
