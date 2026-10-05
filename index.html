@@ -59,6 +59,18 @@
     .stat-label { color: var(--muted); font-size: 12px; font-weight: 700; }
     .stat-value { margin-top: 11px; font-size: 28px; font-weight: 850; letter-spacing: -.05em; }
     .stat-meta { margin-top: 6px; color: var(--forest-2); font-size: 11px; font-weight: 700; }
+    .status-summary { margin: 0 0 18px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+    .status-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 13px; }
+    .status-heading h2 { margin: 0; font-size: 16px; letter-spacing: -.025em; }
+    .status-heading p { margin: 0; color: var(--muted); font-size: 11px; }
+    .status-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .status-card { padding: 13px 14px; border: 1px solid var(--line); border-left: 4px solid var(--forest-2); border-radius: 12px; background: #fbfdfb; }
+    .status-card:nth-child(2) { border-left-color: var(--rose); }
+    .status-card:nth-child(3) { border-left-color: var(--amber); }
+    .status-card:nth-child(4) { border-left-color: #8e72d0; }
+    .status-label { color: var(--muted); font-size: 11px; font-weight: 800; }
+    .status-value { margin-top: 7px; font-size: 21px; font-weight: 850; letter-spacing: -.04em; }
+    .status-meta { margin-top: 3px; color: var(--muted); font-size: 10px; }
     .content-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
     .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 18px 14px; border-bottom: 1px solid var(--line); }
     .toolbar h2 { margin: 0; font-size: 17px; letter-spacing: -.025em; }
@@ -105,7 +117,7 @@
     .toast.show { display: block; animation: rise .25s ease-out; }
     @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 1100px) { .sidebar { width: 205px; } .stats { grid-template-columns: repeat(2, 1fr); } .filters { grid-template-columns: repeat(2, 1fr); } .filters .reset { grid-column: span 2; } }
-    @media (max-width: 720px) { .app-shell { display: block; } .sidebar { width: 100%; padding: 16px; } .brand { padding: 0 4px 15px; } .nav-label, .sidebar-bottom { display: none; } .nav { display: flex; margin: 0; overflow-x: auto; } .nav button { min-width: max-content; padding: 9px 11px; } .main { padding: 22px 14px 30px; } .topbar { display: block; } .top-actions { justify-content: flex-start; margin-top: 16px; } .stats { gap: 9px; } .stat-card { min-height: 106px; padding: 14px; } .stat-value { font-size: 23px; } .toolbar { display: block; } .toolbar-actions { margin-top: 13px; } .search { min-width: 0; flex: 1; width: 100%; } .form-grid { grid-template-columns: 1fr; } .field.wide { grid-column: auto; } }
+    @media (max-width: 720px) { .app-shell { display: block; } .sidebar { width: 100%; padding: 16px; } .brand { padding: 0 4px 15px; } .nav-label, .sidebar-bottom { display: none; } .nav { display: flex; margin: 0; overflow-x: auto; } .nav button { min-width: max-content; padding: 9px 11px; } .main { padding: 22px 14px 30px; } .topbar { display: block; } .top-actions { justify-content: flex-start; margin-top: 16px; } .stats { gap: 9px; } .stat-card { min-height: 106px; padding: 14px; } .stat-value { font-size: 23px; } .status-heading { display: block; } .status-heading p { margin-top: 4px; } .status-grid { grid-template-columns: repeat(2, 1fr); } .toolbar { display: block; } .toolbar-actions { margin-top: 13px; } .search { min-width: 0; flex: 1; width: 100%; } .form-grid { grid-template-columns: 1fr; } .field.wide { grid-column: auto; } }
   </style>
 </head>
 <body>
@@ -133,6 +145,16 @@
         <div class="stat-card"><div class="stat-label">Tổng số lượng</div><div class="stat-value" id="statQuantity">0</div><div class="stat-meta">Đơn vị nguyên vật liệu</div></div>
         <div class="stat-card"><div class="stat-label">Giày thành phẩm</div><div class="stat-value" id="statFinished">0</div><div class="stat-meta">Số lượng đã ghi nhận</div></div>
         <div class="stat-card"><div class="stat-label">Đang chờ xuất kho</div><div class="stat-value" id="statPending">0</div><div class="stat-meta">Chưa có ngày xuất kho</div></div>
+      </section>
+
+      <section class="status-summary" aria-label="Thống kê trạng thái kho">
+        <div class="status-heading"><h2>Trạng thái nhập — xuất kho</h2><p>Tính theo cột ngày nhập kho và ngày xuất kho</p></div>
+        <div class="status-grid">
+          <div class="status-card"><div class="status-label">Đã nhập kho</div><div class="status-value" id="statReceived">0</div><div class="status-meta" id="statReceivedMeta">0 dòng dữ liệu</div></div>
+          <div class="status-card"><div class="status-label">Chưa nhập kho</div><div class="status-value" id="statNotReceived">0</div><div class="status-meta" id="statNotReceivedMeta">0 dòng dữ liệu</div></div>
+          <div class="status-card"><div class="status-label">Nhập kho chưa xuất hàng</div><div class="status-value" id="statReceivedPending">0</div><div class="status-meta" id="statReceivedPendingMeta">0 dòng dữ liệu</div></div>
+          <div class="status-card"><div class="status-label">Đã xuất kho</div><div class="status-value" id="statExported">0</div><div class="status-meta" id="statExportedMeta">0 dòng dữ liệu</div></div>
+        </div>
       </section>
 
       <section class="content-card">
@@ -185,7 +207,7 @@
     function getFilters() { return { search: $('searchInput').value.trim().toLowerCase(), sku: $('skuFilter').value.trim().toLowerCase(), skuMode: $('skuMode').value, supplier: $('supplierFilter').value, customs: $('customsFilter').value, from: $('fromDate').value, to: $('toDate').value }; }
     function filteredRecords() { const f = getFilters(); return records.filter(r => { const hay = [r.orderCode,r.purchaseCode,r.supplier,r.sku,r.material,r.color].join(' ').toLowerCase(); const sku = String(r.sku || '').toLowerCase(); const skuMatches = !f.sku || (f.skuMode === 'exact' ? sku === f.sku : sku.includes(f.sku)); const status = r.clearedDate ? 'Đã thông quan' : 'Chưa thông quan'; return (!f.search || hay.includes(f.search)) && skuMatches && (!f.supplier || r.supplier === f.supplier) && (!f.customs || status === f.customs) && (!f.from || r.receivedDate >= f.from) && (!f.to || r.receivedDate <= f.to); }); }
     function updateSupplierFilter() { const current = $('supplierFilter').value; const suppliers = [...new Set(records.map(r => r.supplier).filter(Boolean))].sort(); $('supplierFilter').innerHTML = '<option value="">Tất cả nhà cung ứng</option>' + suppliers.map(s => `<option>${esc(s)}</option>`).join(''); $('supplierFilter').value = suppliers.includes(current) ? current : ''; }
-    function renderStats() { $('statRecords').textContent = fmtNumber(records.length); $('statQuantity').textContent = fmtNumber(records.reduce((a,r) => a + Number(r.quantity || 0), 0)); $('statFinished').textContent = fmtNumber(records.reduce((a,r) => a + Number(r.finishedQuantity || 0), 0)); $('statPending').textContent = fmtNumber(records.filter(r => !r.exportedDate).length); }
+    function renderStats() { const totalQuantity = list => list.reduce((sum, r) => sum + Number(r.quantity || 0), 0); const received = records.filter(r => r.receivedDate); const notReceived = records.filter(r => !r.receivedDate); const receivedPending = records.filter(r => r.receivedDate && !r.exportedDate); const exported = records.filter(r => r.exportedDate); $('statRecords').textContent = fmtNumber(records.length); $('statQuantity').textContent = fmtNumber(totalQuantity(records)); $('statFinished').textContent = fmtNumber(records.reduce((a,r) => a + Number(r.finishedQuantity || 0), 0)); $('statPending').textContent = fmtNumber(records.filter(r => !r.exportedDate).length); $('statReceived').textContent = fmtNumber(totalQuantity(received)); $('statReceivedMeta').textContent = `${fmtNumber(received.length)} dòng dữ liệu`; $('statNotReceived').textContent = fmtNumber(totalQuantity(notReceived)); $('statNotReceivedMeta').textContent = `${fmtNumber(notReceived.length)} dòng dữ liệu`; $('statReceivedPending').textContent = fmtNumber(totalQuantity(receivedPending)); $('statReceivedPendingMeta').textContent = `${fmtNumber(receivedPending.length)} dòng dữ liệu`; $('statExported').textContent = fmtNumber(totalQuantity(exported)); $('statExportedMeta').textContent = `${fmtNumber(exported.length)} dòng dữ liệu`; }
     function renderTable() { const rows = filteredRecords(); $('resultText').textContent = `Hiển thị ${fmtNumber(rows.length)} / ${fmtNumber(records.length)} bản ghi`; $('footerText').textContent = `${fmtNumber(rows.length)} dòng dữ liệu`; $('emptyState').hidden = rows.length > 0; $('tableBody').innerHTML = rows.map(r => { const customs = r.clearedDate ? '<span class="badge green">Đã thông quan</span>' : '<span class="badge orange">Chưa thông quan</span>'; return `<tr><td><span class="code">${esc(r.orderCode)}</span></td><td>${esc(r.purchaseCode) || '—'}</td><td>${esc(r.supplier)}</td><td><span class="sku">${esc(r.sku)}</span></td><td><b>${esc(r.material)}</b><br><small style="color:var(--muted)">${esc(r.color)} · ${esc(r.unit)}</small></td><td class="qty">${fmtNumber(r.quantity)}</td><td class="qty">${fmtNumber(r.finishedQuantity)}</td><td>${fmtDate(r.receivedDate)}</td><td>${fmtDate(r.exportedDate)}</td><td>${customs}</td><td>${fmtDate(r.deliveredDate)}</td><td><div class="row-actions"><button class="icon-btn" data-edit="${r.id}" title="Sửa">✎</button><button class="icon-btn delete" data-delete="${r.id}" title="Xóa">⌫</button></div></td></tr>`; }).join(''); }
     function render() { updateSupplierFilter(); renderStats(); renderTable(); }
     function openModal(record = null) { editingId = record?.id || null; $('modalTitle').textContent = record ? 'Chỉnh sửa bản ghi' : 'Thêm bản ghi tài liệu'; fields.forEach(key => { const el = $(key); if (el) el.value = record?.[key] ?? (key === 'unit' ? 'Mét' : ''); }); $('modalBackdrop').classList.add('open'); $('orderCode').focus(); }
