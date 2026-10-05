@@ -117,6 +117,25 @@
     .form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
     .toast { position: fixed; right: 22px; bottom: 22px; z-index: 20; display: none; max-width: 340px; padding: 13px 16px; border-radius: 12px; color: #fff; background: var(--forest); box-shadow: var(--shadow); font-size: 13px; font-weight: 700; }
     .toast.show { display: block; animation: rise .25s ease-out; }
+    .auth-screen { min-height: 100vh; display: grid; place-items: center; padding: 20px; background: radial-gradient(circle at 15% 10%, #dff1e7 0, transparent 35%), var(--canvas); }
+    .auth-card { width: min(430px, 100%); padding: 30px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: 0 22px 60px rgba(31,57,45,.12); }
+    .auth-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 24px; }
+    .auth-brand .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px 13px 13px 3px; color: var(--forest); background: var(--lime); font-weight: 900; }
+    .auth-brand strong { display: block; letter-spacing: .08em; }
+    .auth-brand span { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .auth-card h1 { margin: 0; font-size: 25px; }
+    .auth-card > p { margin: 8px 0 20px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .auth-field { margin-bottom: 13px; }
+    .auth-field label { display: block; margin-bottom: 6px; color: #506058; font-size: 11px; font-weight: 800; }
+    .auth-field input { width: 100%; padding: 11px; border: 1px solid var(--line); border-radius: 9px; outline: none; }
+    .auth-error { min-height: 18px; margin: 10px 0 0; color: #ae4c42; font-size: 12px; font-weight: 700; }
+    .demo-accounts { margin-top: 18px; padding: 11px 12px; border-radius: 10px; color: #4c6858; background: var(--mint); font-size: 11px; line-height: 1.55; }
+    .demo-accounts b { display: block; margin-bottom: 3px; }
+    .user-chip { display: flex; align-items: center; gap: 9px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+    .user-avatar { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 9px; color: #fff; background: var(--forest); font-size: 11px; font-weight: 850; }
+    .user-chip strong { display: block; font-size: 11px; }
+    .user-chip small { color: var(--muted); font-size: 10px; }
+    .permission-hidden { display: none !important; }
     .scanner-modal { width: min(480px, 100%); }
     .scanner-body { padding: 20px 22px 22px; }
     .scanner-video { display: block; width: 100%; min-height: 230px; border-radius: 13px; background: #10231c; object-fit: cover; }
@@ -130,7 +149,15 @@
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <div class="auth-brand"><div class="brand-mark">FF</div><div><strong>FOOTFLOW</strong><span>Production materials OS</span></div></div>
+      <h1>Đăng nhập hệ thống</h1><p>Chọn tài khoản được cấp để truy cập đúng chức năng theo vai trò.</p>
+      <form id="loginForm"><div class="auth-field"><label for="loginUser">Tên đăng nhập</label><input id="loginUser" required autocomplete="username" placeholder="Nhập tên đăng nhập" /></div><div class="auth-field"><label for="loginPassword">Mật khẩu</label><input id="loginPassword" required type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" /></div><button class="btn primary" style="width:100%" type="submit">Đăng nhập</button><div class="auth-error" id="authError"></div></form>
+      <div class="demo-accounts"><b>Tài khoản thử nghiệm</b>Admin: <code>admin / admin123</code><br>Nhân viên kho: <code>kho / kho123</code><br>Bộ phận sản xuất: <code>sanxuat / sx123</code></div>
+    </div>
+  </section>
+  <div class="app-shell" id="appShell" hidden>
     <aside class="sidebar">
       <div class="brand"><div class="brand-mark">FF</div><div><strong>FOOTFLOW</strong><span>Production materials OS</span></div></div>
       <div class="nav-label">Không gian làm việc</div>
@@ -146,7 +173,7 @@
     <main class="main">
       <header class="topbar">
         <div><p class="eyebrow">Thứ Hai, 05 tháng 10, 2026</p><h1>Quản lý tài liệu sản xuất</h1><p class="subtitle">Theo dõi nguyên vật liệu từ thu mua đến ngày giao giày thành phẩm.</p></div>
-        <div class="top-actions"><button class="btn secondary" id="scanBtn">⌁ Quét QR</button><button class="btn secondary" id="importBtn">↥ Nhập CSV</button><button class="btn" id="exportBtn">↧ Xuất CSV</button><button class="btn primary" id="addBtn">＋ Thêm bản ghi</button><input id="fileInput" type="file" accept=".csv,text/csv" hidden /></div>
+        <div class="top-actions"><div class="user-chip"><div class="user-avatar" id="userAvatar">U</div><div><strong id="userName">Người dùng</strong><small id="userRole">Vai trò</small></div><button class="icon-btn" id="logoutBtn" title="Đăng xuất">↪</button></div><button class="btn secondary" id="scanBtn">⌁ Quét QR</button><button class="btn secondary" id="importBtn">↥ Nhập CSV</button><button class="btn" id="exportBtn">↧ Xuất CSV</button><button class="btn primary" id="addBtn">＋ Thêm bản ghi</button><input id="fileInput" type="file" accept=".csv,text/csv" hidden /></div>
       </header>
 
       <section class="stats" aria-label="Tổng quan số liệu">
@@ -209,6 +236,15 @@
     let editingId = null;
     let selectedIds = new Set();
     const $ = (id) => document.getElementById(id);
+    const SESSION_KEY = 'footflow-session-v1';
+    const USERS = { admin:{username:'admin',password:'admin123',name:'Quản trị viên',role:'Admin',permissions:['view','create','edit','delete','import','export','print','scan']}, kho:{username:'kho',password:'kho123',name:'Nhân viên kho',role:'Nhân viên kho',permissions:['view','create','edit','import','export','print','scan']}, sanxuat:{username:'sanxuat',password:'sx123',name:'Bộ phận sản xuất',role:'Bộ phận sản xuất',permissions:['view','export','print','scan']} };
+    let currentUser = null;
+    function hasPermission(permission) { return Boolean(currentUser?.permissions.includes(permission)); }
+    function enforceRowPermissions() { document.querySelectorAll('[data-edit]').forEach(button => button.classList.toggle('permission-hidden', !hasPermission('edit'))); document.querySelectorAll('[data-delete]').forEach(button => button.classList.toggle('permission-hidden', !hasPermission('delete'))); }
+    function applyPermissions() { ['addBtn','importBtn'].forEach(id => $(id).classList.toggle('permission-hidden', !hasPermission(id === 'addBtn' ? 'create' : 'import'))); $('userName').textContent = currentUser.name; $('userRole').textContent = currentUser.role; $('userAvatar').textContent = currentUser.name.slice(0,1); renderTable(); enforceRowPermissions(); }
+    function login(user, password) { const account = Object.values(USERS).find(u => u.username === user && u.password === password); if (!account) return false; currentUser = account; sessionStorage.setItem(SESSION_KEY, account.username); $('authScreen').hidden = true; $('appShell').hidden = false; applyPermissions(); return true; }
+    function logout() { currentUser = null; sessionStorage.removeItem(SESSION_KEY); $('appShell').hidden = true; $('authScreen').hidden = false; $('loginPassword').value = ''; $('loginUser').focus(); }
+    function initAuth() { const saved = sessionStorage.getItem(SESSION_KEY); const account = USERS[saved]; if (account) { currentUser = account; $('authScreen').hidden = true; $('appShell').hidden = false; applyPermissions(); } else { $('loginUser').focus(); } }
     function loadRecords() { try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : sampleData; } catch { return sampleData; } }
     function saveRecords() { localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); }
     function esc(value) { return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
@@ -229,22 +265,25 @@
     function lookupCode(value) { const record = resolveLookup(value); if (!record) return toast('Không tìm thấy tài liệu theo mã vừa quét.'); closeScanner(); $('searchInput').value = record.orderCode; renderTable(); toast(`Đã tra cứu ${record.sku} — ${record.material}.`); }
     async function startScanner() { $('scannerBackdrop').classList.add('open'); $('scannerStatus').textContent = 'Đang khởi động camera…'; if (!('BarcodeDetector' in window) || !navigator.mediaDevices?.getUserMedia) { $('scannerStatus').textContent = 'Trình duyệt chưa hỗ trợ quét camera. Bạn có thể nhập SKU hoặc mã đơn hàng bên dưới.'; return; } try { scannerStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}}); const video = $('scannerVideo'); video.srcObject = scannerStream; await video.play(); const detector = new BarcodeDetector({formats:['qr_code','code_128','ean_13','ean_8']}); $('scannerStatus').textContent = 'Đưa mã QR hoặc mã vạch vào khung hình để quét.'; const scan = async () => { if (!$('scannerBackdrop').classList.contains('open')) return; try { const codes = await detector.detect(video); if (codes.length && codes[0].rawValue) return lookupCode(codes[0].rawValue); } catch {} scannerTimer = requestAnimationFrame(scan); }; scan(); } catch { $('scannerStatus').textContent = 'Không thể truy cập camera. Hãy kiểm tra quyền camera hoặc nhập mã thủ công bên dưới.'; } }
     function closeScanner() { if (scannerTimer) cancelAnimationFrame(scannerTimer); scannerTimer = null; if (scannerStream) scannerStream.getTracks().forEach(track => track.stop()); scannerStream = null; const video = $('scannerVideo'); if (video) video.srcObject = null; $('scannerBackdrop').classList.remove('open'); }
-    function render() { updateSupplierFilter(); renderStats(); renderTable(); }
+    function render() { updateSupplierFilter(); renderStats(); renderTable(); enforceRowPermissions(); }
     function openModal(record = null) { editingId = record?.id || null; $('modalTitle').textContent = record ? 'Chỉnh sửa bản ghi' : 'Thêm bản ghi tài liệu'; fields.forEach(key => { const el = $(key); if (el) el.value = record?.[key] ?? (key === 'unit' ? 'Mét' : ''); }); $('modalBackdrop').classList.add('open'); $('orderCode').focus(); }
     function closeModal() { $('modalBackdrop').classList.remove('open'); editingId = null; $('recordForm').reset(); $('unit').value = 'Mét'; }
     function readForm() { const data = {}; fields.forEach(key => { data[key] = $(key).value; }); data.quantity = Number(data.quantity || 0); data.finishedQuantity = Number(data.finishedQuantity || 0); return data; }
     function csvEscape(value) { const s = String(value ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s; }
     function exportCsv() { const headers = ['Mã đơn hàng','Mã mua hàng thu mua','Nhà cung ứng','Mã hình thể SKU','Tài liệu','Màu sắc','Đơn vị tính','Số lượng','Số lượng giày thành phẩm','Ngày nhập kho','Ngày xuất kho','Ngày thông quan','Phương thức thông quan','Lý do xuất kho','Ngày giao giày thành phẩm']; const keys = fields; const content = '\ufeff' + [headers, ...records.map(r => keys.map(k => r[k]))].map(row => row.map(csvEscape).join(',')).join('\n'); const blob = new Blob([content], {type:'text/csv;charset=utf-8;'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'footflow-tai-lieu-san-xuat.csv'; a.click(); URL.revokeObjectURL(a.href); toast('Đã xuất dữ liệu CSV.'); }
     function parseCsv(text) { const rows=[]; let row=[], cell='', quoted=false; for(let i=0;i<text.length;i++){ const c=text[i], n=text[i+1]; if(c==='"' && quoted && n==='"'){cell+='"';i++;} else if(c==='"'){quoted=!quoted;} else if(c===',' && !quoted){row.push(cell);cell='';} else if((c==='\n' || c==='\r') && !quoted){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell='';} else cell+=c;} if(cell||row.length){row.push(cell);rows.push(row);} return rows; }
-    function importCsv(file) { const reader = new FileReader(); reader.onload = () => { const rows = parseCsv(reader.result.replace(/^\ufeff/,'')); if(rows.length < 2) return toast('Tệp CSV không có dữ liệu hợp lệ.'); const map = ['orderCode','purchaseCode','supplier','sku','material','color','unit','quantity','finishedQuantity','receivedDate','exportedDate','clearedDate','customsMethod','exportReason','deliveredDate']; const imported = rows.slice(1).map(row => { const r={id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random())}; map.forEach((key,i) => r[key] = row[i]?.trim() || ''); r.quantity=Number(r.quantity.replace(/[^0-9.-]/g,''))||0; r.finishedQuantity=Number(r.finishedQuantity.replace(/[^0-9.-]/g,''))||0; return r; }).filter(r => r.orderCode && r.material); records = [...imported, ...records]; saveRecords(); render(); toast(`Đã nhập ${imported.length} bản ghi từ CSV.`); }; reader.readAsText(file); }
+    function importCsv(file) { if (!hasPermission('import')) return toast('Vai trò hiện tại không có quyền nhập CSV.'); const reader = new FileReader(); reader.onload = () => { const rows = parseCsv(reader.result.replace(/^\ufeff/,'')); if(rows.length < 2) return toast('Tệp CSV không có dữ liệu hợp lệ.'); const map = ['orderCode','purchaseCode','supplier','sku','material','color','unit','quantity','finishedQuantity','receivedDate','exportedDate','clearedDate','customsMethod','exportReason','deliveredDate']; const imported = rows.slice(1).map(row => { const r={id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random())}; map.forEach((key,i) => r[key] = row[i]?.trim() || ''); r.quantity=Number(r.quantity.replace(/[^0-9.-]/g,''))||0; r.finishedQuantity=Number(r.finishedQuantity.replace(/[^0-9.-]/g,''))||0; return r; }).filter(r => r.orderCode && r.material); records = [...imported, ...records]; saveRecords(); render(); toast(`Đã nhập ${imported.length} bản ghi từ CSV.`); }; reader.readAsText(file); }
     $('addBtn').addEventListener('click', () => openModal()); $('scanBtn').addEventListener('click', startScanner); $('bulkPrintBtn').addEventListener('click', printSelectedLabels); $('selectAll').addEventListener('change', e => { filteredRecords().forEach(r => e.target.checked ? selectedIds.add(String(r.id)) : selectedIds.delete(String(r.id))); renderTable(); }); $('closeScanner').addEventListener('click', closeScanner); $('scannerBackdrop').addEventListener('click', e => { if(e.target === $('scannerBackdrop')) closeScanner(); }); $('manualLookup').addEventListener('click', () => lookupCode($('manualCode').value)); $('manualCode').addEventListener('keydown', e => { if(e.key === 'Enter') lookupCode(e.target.value); }); $('closeModal').addEventListener('click', closeModal); $('cancelBtn').addEventListener('click', closeModal); $('modalBackdrop').addEventListener('click', e => { if(e.target === $('modalBackdrop')) closeModal(); }); $('exportBtn').addEventListener('click', exportCsv); $('importBtn').addEventListener('click', () => $('fileInput').click()); $('fileInput').addEventListener('change', e => { if(e.target.files[0]) importCsv(e.target.files[0]); e.target.value=''; });
-    $('recordForm').addEventListener('submit', e => { e.preventDefault(); const data=readForm(); if(editingId){ const index=records.findIndex(r=>r.id===editingId); records[index]={...records[index],...data}; toast('Đã cập nhật bản ghi.'); } else { records.unshift({id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), ...data}); toast('Đã thêm bản ghi mới.'); } saveRecords(); render(); closeModal(); });
-    document.addEventListener('click', e => { const print=e.target.closest('[data-print]'); const edit=e.target.closest('[data-edit]'); const del=e.target.closest('[data-delete]'); if(print) printLabel(print.dataset.print); if(edit){ const r=records.find(x=>x.id===edit.dataset.edit); if(r) openModal(r); } if(del){ const r=records.find(x=>x.id===del.dataset.delete); if(r && confirm(`Xóa bản ghi ${r.orderCode} — ${r.material}?`)){ selectedIds.delete(String(r.id)); records=records.filter(x=>x.id!==r.id); saveRecords(); render(); toast('Đã xóa bản ghi.'); } } });
+    $('recordForm').addEventListener('submit', e => { e.preventDefault(); if (editingId && !hasPermission('edit')) return toast('Vai trò hiện tại không có quyền sửa bản ghi.'); if (!editingId && !hasPermission('create')) return toast('Vai trò hiện tại không có quyền thêm bản ghi.'); const data=readForm(); if(editingId){ const index=records.findIndex(r=>r.id===editingId); records[index]={...records[index],...data}; toast('Đã cập nhật bản ghi.'); } else { records.unshift({id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), ...data}); toast('Đã thêm bản ghi mới.'); } saveRecords(); render(); closeModal(); });
+    document.addEventListener('click', e => { const print=e.target.closest('[data-print]'); const edit=e.target.closest('[data-edit]'); const del=e.target.closest('[data-delete]'); if(print) printLabel(print.dataset.print); if(edit){ if (!hasPermission('edit')) return toast('Vai trò hiện tại chỉ được xem dữ liệu.'); const r=records.find(x=>x.id===edit.dataset.edit); if(r) openModal(r); } if(del){ if (!hasPermission('delete')) return toast('Chỉ Admin mới có quyền xóa bản ghi.'); const r=records.find(x=>x.id===del.dataset.delete); if(r && confirm(`Xóa bản ghi ${r.orderCode} — ${r.material}?`)){ selectedIds.delete(String(r.id)); records=records.filter(x=>x.id!==r.id); saveRecords(); render(); toast('Đã xóa bản ghi.'); } } });
     document.addEventListener('change', e => { const check = e.target.closest('[data-select]'); if (check) { check.checked ? selectedIds.add(String(check.dataset.select)) : selectedIds.delete(String(check.dataset.select)); syncSelectionUi(); } });
     ['searchInput','skuFilter','skuMode','supplierFilter','customsFilter','fromDate','toDate'].forEach(id => $(id).addEventListener('input', renderTable));
     function clearFilters(){ $('searchInput').value=''; $('skuFilter').value=''; $('skuMode').value='contains'; $('supplierFilter').value=''; $('customsFilter').value=''; $('fromDate').value=''; $('toDate').value=''; renderTable(); }
     $('clearBtn').addEventListener('click', clearFilters); $('resetFilters').addEventListener('click', clearFilters); document.querySelectorAll('[data-nav]').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('[data-nav]').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); if(btn.dataset.nav !== 'overview' && btn.dataset.nav !== 'materials') toast('Mục này sẽ được mở rộng trong phiên bản tiếp theo.'); }));
+    $('loginForm').addEventListener('submit', e => { e.preventDefault(); const ok = login($('loginUser').value.trim().toLowerCase(), $('loginPassword').value); $('authError').textContent = ok ? '' : 'Tên đăng nhập hoặc mật khẩu không đúng.'; if (ok) $('loginForm').reset(); });
+    $('logoutBtn').addEventListener('click', logout);
     render();
+    initAuth();
   </script>
 </body>
 </html>

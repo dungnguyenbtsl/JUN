@@ -11,6 +11,7 @@ Giao diện thử nghiệm nằm trong file [`index.html`](./index.html). Đây 
 - In tem tài liệu sản xuất theo từng dòng, khổ tem mặc định 90 × 55 mm, gồm SKU, mã đơn hàng, nhà cung ứng, màu sắc, số lượng và ngày nhập kho.
 - Tự động thêm mã QR tra cứu vào tem; nút **Quét QR** dùng camera trình duyệt để tra cứu nhanh theo QR, SKU hoặc mã đơn hàng.
 - Chọn nhiều dòng bằng checkbox, chọn tất cả các dòng đang hiển thị và in nhiều tem trong một lần; bố cục nhiều tem được sắp trên khổ A4.
+- Đăng nhập và phân quyền thử nghiệm cho **Admin**, **Nhân viên kho** và **Bộ phận sản xuất**.
 - Theo dõi mã đơn hàng, mã mua hàng thu mua, nhà cung ứng, SKU, tài liệu, màu sắc, số lượng và ngày tháng liên quan.
 - Tìm kiếm tổng quát và lọc nâng cao riêng theo mã SKU (có chứa hoặc khớp chính xác), nhà cung ứng, tình trạng thông quan và ngày nhập kho.
 - Nhập dữ liệu từ CSV và xuất dữ liệu ra CSV mở bằng Excel.
@@ -20,6 +21,14 @@ Giao diện thử nghiệm nằm trong file [`index.html`](./index.html). Đây 
 ### Chạy thử cục bộ
 
 Mở trực tiếp file `index.html` bằng trình duyệt. Dữ liệu mẫu sẽ được nạp lần đầu và các thay đổi sẽ lưu trong trình duyệt hiện tại.
+
+### Tài khoản thử nghiệm và quyền hạn
+
+| Vai trò | Tài khoản | Quyền chính |
+|---|---|---|
+| Admin | `admin / admin123` | Xem, thêm, sửa, xóa, nhập/xuất CSV, in tem, quét QR |
+| Nhân viên kho | `kho / kho123` | Xem, thêm, sửa, nhập/xuất CSV, in tem, quét QR; không xóa |
+| Bộ phận sản xuất | `sanxuat / sx123` | Xem, lọc, xuất CSV, in tem, quét QR; không sửa dữ liệu |
 
 ### Bật GitHub Pages
 
@@ -35,6 +44,8 @@ https://dungnguyenbtsl.github.io/JUN/
 ```
 
 > Phiên bản hiện tại phù hợp để chạy thử giao diện. Dữ liệu chưa đồng bộ giữa nhiều người dùng vì đang lưu bằng `localStorage`. Khi vận hành thật, nên kết nối thêm Supabase/Firebase hoặc API cơ sở dữ liệu.
+
+> **Lưu ý bảo mật:** phân quyền hiện tại là phân quyền phía trình duyệt để chạy thử trên GitHub Pages. Tài khoản/mật khẩu nằm trong mã JavaScript nên không phù hợp bảo vệ dữ liệu thật. Khi vận hành chính thức, cần chuyển xác thực và kiểm tra quyền sang backend/Supabase/Firebase, kèm cơ sở dữ liệu dùng chung.
 
 ### Mã QR và camera
 
