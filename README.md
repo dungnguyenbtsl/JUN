@@ -8,6 +8,7 @@ Giao diện thử nghiệm nằm trong file [`index.html`](./index.html). Đây 
 
 - Thêm, sửa, xóa bản ghi tài liệu sản xuất.
 - Thống kê số lượng tài liệu đã nhập kho, chưa nhập kho, đã nhập nhưng chưa xuất hàng và đã xuất kho; mỗi chỉ số hiển thị cả tổng số lượng và số dòng dữ liệu.
+- In tem tài liệu sản xuất theo từng dòng, khổ tem mặc định 90 × 55 mm, gồm SKU, mã đơn hàng, nhà cung ứng, màu sắc, số lượng và ngày nhập kho.
 - Theo dõi mã đơn hàng, mã mua hàng thu mua, nhà cung ứng, SKU, tài liệu, màu sắc, số lượng và ngày tháng liên quan.
 - Tìm kiếm tổng quát và lọc nâng cao riêng theo mã SKU (có chứa hoặc khớp chính xác), nhà cung ứng, tình trạng thông quan và ngày nhập kho.
 - Nhập dữ liệu từ CSV và xuất dữ liệu ra CSV mở bằng Excel.
