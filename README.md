@@ -10,6 +10,7 @@ Giao diện thử nghiệm nằm trong file [`index.html`](./index.html). Đây 
 - Thống kê số lượng tài liệu đã nhập kho, chưa nhập kho, đã nhập nhưng chưa xuất hàng và đã xuất kho; mỗi chỉ số hiển thị cả tổng số lượng và số dòng dữ liệu.
 - In tem tài liệu sản xuất theo từng dòng, khổ tem mặc định 90 × 55 mm, gồm SKU, mã đơn hàng, nhà cung ứng, màu sắc, số lượng và ngày nhập kho.
 - Tự động thêm mã QR tra cứu vào tem; nút **Quét QR** dùng camera trình duyệt để tra cứu nhanh theo QR, SKU hoặc mã đơn hàng.
+- Chọn nhiều dòng bằng checkbox, chọn tất cả các dòng đang hiển thị và in nhiều tem trong một lần; bố cục nhiều tem được sắp trên khổ A4.
 - Theo dõi mã đơn hàng, mã mua hàng thu mua, nhà cung ứng, SKU, tài liệu, màu sắc, số lượng và ngày tháng liên quan.
 - Tìm kiếm tổng quát và lọc nâng cao riêng theo mã SKU (có chứa hoặc khớp chính xác), nhà cung ứng, tình trạng thông quan và ngày nhập kho.
 - Nhập dữ liệu từ CSV và xuất dữ liệu ra CSV mở bằng Excel.
