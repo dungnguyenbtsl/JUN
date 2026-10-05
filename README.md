@@ -12,6 +12,7 @@ Giao diện thử nghiệm nằm trong file [`index.html`](./index.html). Đây 
 - Tự động thêm mã QR tra cứu vào tem; nút **Quét QR** dùng camera trình duyệt để tra cứu nhanh theo QR, SKU hoặc mã đơn hàng.
 - Chọn nhiều dòng bằng checkbox, chọn tất cả các dòng đang hiển thị và in nhiều tem trong một lần; bố cục nhiều tem được sắp trên khổ A4.
 - Đăng nhập và phân quyền thử nghiệm cho **Admin**, **Nhân viên kho** và **Bộ phận sản xuất**.
+- Audit Log theo từng tài khoản: ghi thời gian, tài khoản, vai trò, hành động, đối tượng và chi tiết; Admin có thể lọc và xuất lịch sử CSV.
 - Theo dõi mã đơn hàng, mã mua hàng thu mua, nhà cung ứng, SKU, tài liệu, màu sắc, số lượng và ngày tháng liên quan.
 - Tìm kiếm tổng quát và lọc nâng cao riêng theo mã SKU (có chứa hoặc khớp chính xác), nhà cung ứng, tình trạng thông quan và ngày nhập kho.
 - Nhập dữ liệu từ CSV và xuất dữ liệu ra CSV mở bằng Excel.
@@ -46,6 +47,8 @@ https://dungnguyenbtsl.github.io/JUN/
 > Phiên bản hiện tại phù hợp để chạy thử giao diện. Dữ liệu chưa đồng bộ giữa nhiều người dùng vì đang lưu bằng `localStorage`. Khi vận hành thật, nên kết nối thêm Supabase/Firebase hoặc API cơ sở dữ liệu.
 
 > **Lưu ý bảo mật:** phân quyền hiện tại là phân quyền phía trình duyệt để chạy thử trên GitHub Pages. Tài khoản/mật khẩu nằm trong mã JavaScript nên không phù hợp bảo vệ dữ liệu thật. Khi vận hành chính thức, cần chuyển xác thực và kiểm tra quyền sang backend/Supabase/Firebase, kèm cơ sở dữ liệu dùng chung.
+
+Audit Log cũng đang lưu trong `localStorage` của trình duyệt và giới hạn 1.000 dòng gần nhất. Khi triển khai thật, cần lưu log ở backend để tránh người dùng có thể xóa hoặc sửa log phía máy khách.
 
 ### Mã QR và camera
 
