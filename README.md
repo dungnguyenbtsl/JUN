@@ -27,6 +27,7 @@ Mở trực tiếp file `index.html` bằng trình duyệt. Dữ liệu mẫu s�
 
 | Vai trò | Tài khoản | Quyền chính |
 |---|---|---|
+| Super Admin | `superadmin / superadmin123` | Toàn bộ quyền hệ thống, bao gồm Audit Log và quyền mở rộng trong tương lai |
 | Admin | `admin / admin123` | Xem, thêm, sửa, xóa, nhập/xuất CSV, in tem, quét QR |
 | Nhân viên kho | `kho / kho123` | Xem, thêm, sửa, nhập/xuất CSV, in tem, quét QR; không xóa |
 | Bộ phận sản xuất | `sanxuat / sx123` | Xem, lọc, xuất CSV, in tem, quét QR; không sửa dữ liệu |
@@ -49,6 +50,8 @@ https://dungnguyenbtsl.github.io/JUN/
 > **Lưu ý bảo mật:** phân quyền hiện tại là phân quyền phía trình duyệt để chạy thử trên GitHub Pages. Tài khoản/mật khẩu nằm trong mã JavaScript nên không phù hợp bảo vệ dữ liệu thật. Khi vận hành chính thức, cần chuyển xác thực và kiểm tra quyền sang backend/Supabase/Firebase, kèm cơ sở dữ liệu dùng chung.
 
 Audit Log cũng đang lưu trong `localStorage` của trình duyệt và giới hạn 1.000 dòng gần nhất. Khi triển khai thật, cần lưu log ở backend để tránh người dùng có thể xóa hoặc sửa log phía máy khách.
+
+Tài khoản `superadmin` chỉ dùng để kiểm thử bản GitHub Pages hiện tại. Khi đưa vào vận hành thật, cần thay mật khẩu mẫu bằng cơ chế xác thực backend và không lưu thông tin đăng nhập trong mã nguồn frontend.
 
 ### Mã QR và camera
 
